@@ -159,8 +159,9 @@ const POINTS_DE_VENTE = [
     ville: 'Rivière-au-Tonnerre',
     description:
       'La maison-atelier de l’artiste : rencontrez Karyn, visitez l’atelier et découvrez toutes les collections.',
-    lat: 50.2665,
-    lng: -64.7823,
+    adresse: '578, rue Jacques-Cartier, Rivière-au-Tonnerre, QC G0G 2L0',
+    lat: 50.27527,
+    lng: -64.78956,
     atelier: true,
   },
   {
@@ -215,12 +216,15 @@ const POINTS_DE_VENTE = [
   POINTS_DE_VENTE.forEach((p) => {
     const carte = document.createElement('article');
     carte.className = 'boutique' + (p.atelier ? ' boutique--atelier' : '');
-    const requete = encodeURIComponent(p.nom.replace(/—.*$/, '').trim() + ', ' + p.ville + ', QC');
+    const requete = encodeURIComponent(
+      p.adresse ? p.adresse : p.nom.replace(/—.*$/, '').trim() + ', ' + p.ville + ', QC'
+    );
     carte.innerHTML =
       '<div>' +
       '<p class="boutique-ville">' + p.ville + '</p>' +
       '<h3>' + p.nom + '</h3>' +
       '<p>' + p.description + '</p>' +
+      (p.adresse ? '<p class="boutique-adresse">' + p.adresse + '</p>' : '') +
       '</div>' +
       '<a class="boutique-lien" href="https://www.google.com/maps/search/?api=1&query=' +
       requete +

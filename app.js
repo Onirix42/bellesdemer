@@ -6,10 +6,10 @@
    Les textes vivent dans lang/fr.js et lang/en.js.            */
 let langueActive = 'fr';
 try {
-  const memo = localStorage.getItem('bdm-langue');
+  const memo = (document.cookie.match(/(?:^|;\s*)bdm-langue=(fr|en)/) || [])[1];
   if (memo === 'fr' || memo === 'en') langueActive = memo;
 } catch (e) {
-  /* stockage indisponible : on reste en français */
+  /* témoin indisponible : on reste en français */
 }
 
 function t(cle) {
@@ -48,7 +48,7 @@ function appliquerTraductions() {
 function changerLangue(langue) {
   langueActive = langue;
   try {
-    localStorage.setItem('bdm-langue', langue);
+    document.cookie = 'bdm-langue=' + langue + '; max-age=31536000; path=/; SameSite=Lax';
   } catch (e) {
     /* ignorer */
   }

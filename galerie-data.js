@@ -13,8 +13,6 @@ const GALERIE_CATEGORIES = [
 
 const GALERIE_IMAGES = {
   "Boucles d'oreilles": [
-    'IMG_1529 Large.jpeg',
-    'IMG_3197 Large.jpeg',
     'IMG_4030 Large.jpeg',
     'IMG_4037 Large.jpeg',
     'IMG_4042 Large.jpeg',

@@ -473,6 +473,11 @@
   column-gap: var(--space-4);
 }
 
+.galerie-grid.est-vide {
+  columns: auto;
+  column-gap: 0;
+}
+
 .galerie-item {
   break-inside: avoid;
   margin-bottom: var(--space-4);

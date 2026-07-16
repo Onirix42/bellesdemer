@@ -92,6 +92,7 @@
     grille.innerHTML = '';
     const cat = GALERIE_CATEGORIES.find((c) => c.dossier === categorieActive);
     const images = GALERIE_IMAGES[categorieActive] || [];
+    grille.classList.toggle('est-vide', !images.length);
 
     if (!images.length) {
       const vide = document.createElement('div');
@@ -140,7 +141,7 @@ function ouvrirVisionneuse(src, legende) {
 
 function fermerVisionneuse() {
   visionneuse.classList.remove('est-ouverte');
-  visionneuseImg.src = '';
+  visionneuseImg.removeAttribute('src');
 }
 
 visionneuseFermer.addEventListener('click', fermerVisionneuse);

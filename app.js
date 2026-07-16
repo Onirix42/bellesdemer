@@ -2,6 +2,69 @@
    Belles de Mer — Interactions
    ============================================================ */
 
+/* ---------- Langue (FR par défaut, EN disponible) ----------
+   Les textes vivent dans lang/fr.js et lang/en.js.            */
+let langueActive = 'fr';
+try {
+  const memo = localStorage.getItem('bdm-langue');
+  if (memo === 'fr' || memo === 'en') langueActive = memo;
+} catch (e) {
+  /* stockage indisponible : on reste en français */
+}
+
+function t(cle) {
+  const dicos = window.TRADUCTIONS || {};
+  const actif = dicos[langueActive] || {};
+  const fr = dicos.fr || {};
+  return actif[cle] != null ? actif[cle] : fr[cle] != null ? fr[cle] : cle;
+}
+
+function appliquerTraductions() {
+  document.documentElement.lang = langueActive;
+  document.title = t('meta.titre');
+  const meta = document.querySelector('meta[name="description"]');
+  if (meta) meta.setAttribute('content', t('meta.description'));
+
+  document.querySelectorAll('[data-i18n]').forEach((el) => {
+    el.textContent = t(el.getAttribute('data-i18n'));
+  });
+  document.querySelectorAll('[data-i18n-html]').forEach((el) => {
+    el.innerHTML = t(el.getAttribute('data-i18n-html'));
+  });
+  document.querySelectorAll('[data-i18n-alt]').forEach((el) => {
+    el.setAttribute('alt', t(el.getAttribute('data-i18n-alt')));
+  });
+  document.querySelectorAll('[data-i18n-aria]').forEach((el) => {
+    el.setAttribute('aria-label', t(el.getAttribute('data-i18n-aria')));
+  });
+
+  const bouton = document.querySelector('[data-lang-toggle]');
+  if (bouton) {
+    bouton.textContent = langueActive === 'fr' ? 'EN' : 'FR';
+    bouton.setAttribute('aria-label', t('a11y.changer-langue'));
+  }
+}
+
+function changerLangue(langue) {
+  langueActive = langue;
+  try {
+    localStorage.setItem('bdm-langue', langue);
+  } catch (e) {
+    /* ignorer */
+  }
+  appliquerTraductions();
+  document.dispatchEvent(new CustomEvent('languechange'));
+}
+
+(function () {
+  const bouton = document.querySelector('[data-lang-toggle]');
+  bouton &&
+    bouton.addEventListener('click', () => {
+      changerLangue(langueActive === 'fr' ? 'en' : 'fr');
+    });
+  appliquerTraductions();
+})();
+
 /* ---------- Thème clair / sombre ---------- */
 (function () {
   const bouton = document.querySelector('[data-theme-toggle]');
@@ -12,10 +75,7 @@
   function appliquer(m) {
     racine.setAttribute('data-theme', m);
     if (!bouton) return;
-    bouton.setAttribute(
-      'aria-label',
-      m === 'dark' ? 'Passer en mode clair' : 'Passer en mode sombre'
-    );
+    bouton.setAttribute('aria-label', t('a11y.mode-sombre'));
     bouton.innerHTML =
       m === 'dark'
         ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>'
@@ -27,6 +87,7 @@
       mode = mode === 'dark' ? 'light' : 'dark';
       appliquer(mode);
     });
+  document.addEventListener('languechange', () => appliquer(mode));
 })();
 
 /* ---------- En-tête au défilement ---------- */
@@ -69,40 +130,46 @@
 
   let categorieActive = GALERIE_CATEGORIES[0].dossier;
 
-  // Onglets
-  GALERIE_CATEGORIES.forEach((cat, i) => {
-    const tab = document.createElement('button');
-    tab.className = 'galerie-tab';
-    tab.setAttribute('role', 'tab');
-    tab.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
-    tab.id = 'tab-' + cat.id;
-    const nb = (GALERIE_IMAGES[cat.dossier] || []).length;
-    tab.textContent = cat.titre + (nb ? ' (' + nb + ')' : '');
-    tab.addEventListener('click', () => {
-      categorieActive = cat.dossier;
-      conteneurTabs
-        .querySelectorAll('.galerie-tab')
-        .forEach((t) => t.setAttribute('aria-selected', t === tab ? 'true' : 'false'));
-      afficher();
+  function libelle(cat) {
+    return t('cat.' + cat.dossier);
+  }
+
+  function construireOnglets() {
+    conteneurTabs.innerHTML = '';
+    GALERIE_CATEGORIES.forEach((cat) => {
+      const tab = document.createElement('button');
+      tab.className = 'galerie-tab';
+      tab.setAttribute('role', 'tab');
+      tab.setAttribute('aria-selected', cat.dossier === categorieActive ? 'true' : 'false');
+      tab.id = 'tab-' + cat.id;
+      const nb = (GALERIE_IMAGES[cat.dossier] || []).length;
+      tab.textContent = libelle(cat) + (nb ? ' (' + nb + ')' : '');
+      tab.addEventListener('click', () => {
+        categorieActive = cat.dossier;
+        conteneurTabs
+          .querySelectorAll('.galerie-tab')
+          .forEach((b) => b.setAttribute('aria-selected', b === tab ? 'true' : 'false'));
+        afficher();
+      });
+      conteneurTabs.appendChild(tab);
     });
-    conteneurTabs.appendChild(tab);
-  });
+  }
 
   function afficher() {
     grille.innerHTML = '';
     const cat = GALERIE_CATEGORIES.find((c) => c.dossier === categorieActive);
     const images = GALERIE_IMAGES[categorieActive] || [];
     grille.classList.toggle('est-vide', !images.length);
+    const nomCat = libelle(cat);
+    const nomCatPhrase = langueActive === 'fr' ? nomCat.toLowerCase() : nomCat;
 
     if (!images.length) {
       const vide = document.createElement('div');
       vide.className = 'galerie-empty';
       vide.innerHTML =
         '<svg width="44" height="44" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="24" cy="24" r="18"/><path d="M24 24c-2-7.5-1.5-14 0-17.5C25.5 10 26 16.5 24 24Z"/><path d="M24 24c7.5-2 14-1.5 17.5 0C38 25.5 31.5 26 24 24Z"/><path d="M24 24c2 7.5 1.5 14 0 17.5C22.5 38 22 31.5 24 24Z"/><path d="M24 24c-7.5 2-14 1.5-17.5 0C10 22.5 16.5 22 24 24Z"/></svg>' +
-        '<h3>Les ' + cat.titre.toLowerCase() + ' arrivent bientôt</h3>' +
-        '<p>Karyn prépare la sélection des photos de ses ' +
-        cat.titre.toLowerCase() +
-        '. Revenez à la prochaine marée — ou passez la voir en boutique d’ici là.</p>';
+        '<h3>' + t('galerie.vide.titre').replace('{categorie}', nomCatPhrase) + '</h3>' +
+        '<p>' + t('galerie.vide.texte').replace('{categorie}', nomCatPhrase) + '</p>';
       grille.appendChild(vide);
       return;
     }
@@ -110,19 +177,27 @@
     images.forEach((nom, i) => {
       const bouton = document.createElement('button');
       bouton.className = 'galerie-item';
-      bouton.setAttribute('aria-label', 'Agrandir la photo ' + (i + 1) + ' — ' + cat.titre);
+      bouton.setAttribute(
+        'aria-label',
+        t('galerie.agrandir').replace('{n}', i + 1).replace('{categorie}', nomCat)
+      );
       const img = document.createElement('img');
       img.src = encodeURI('Galerie/' + categorieActive + '/' + nom);
-      img.alt = cat.titre + ' Belles de Mer — pièce unique faite main';
+      img.alt = t('galerie.alt-item').replace('{categorie}', nomCat);
       img.loading = 'lazy';
       img.decoding = 'async';
       bouton.appendChild(img);
-      bouton.addEventListener('click', () => ouvrirVisionneuse(img.src, cat.titre));
+      bouton.addEventListener('click', () => ouvrirVisionneuse(img.src, nomCat));
       grille.appendChild(bouton);
     });
   }
 
+  construireOnglets();
   afficher();
+  document.addEventListener('languechange', () => {
+    construireOnglets();
+    afficher();
+  });
 })();
 
 /* ---------- Visionneuse ---------- */
@@ -133,7 +208,7 @@ const visionneuseFermer = document.getElementById('visionneuse-fermer');
 
 function ouvrirVisionneuse(src, legende) {
   visionneuseImg.src = src;
-  visionneuseImg.alt = legende + ' — photo agrandie';
+  visionneuseImg.alt = t('visionneuse.alt').replace('{legende}', legende);
   visionneuseLegende.textContent = legende;
   visionneuse.classList.add('est-ouverte');
   visionneuseFermer.focus();
@@ -152,57 +227,58 @@ addEventListener('keydown', (e) => {
   if (e.key === 'Escape') fermerVisionneuse();
 });
 
-/* ---------- Points de vente ---------- */
+/* ---------- Points de vente ----------
+   Les descriptions sont dans lang/fr.js et lang/en.js
+   (clés « pdv.xxx.desc »).                             */
 const POINTS_DE_VENTE = [
   {
+    cle: 'pdv.atelier',
     nom: 'Atelier Belles de Mer — chez Karyn',
     ville: 'Rivière-au-Tonnerre',
-    description:
-      'La maison-atelier de l’artiste : rencontrez Karyn, visitez l’atelier et découvrez toutes les collections.',
     adresse: '578, rue Jacques-Cartier, Rivière-au-Tonnerre, QC G0G 2L0',
     lat: 50.27527,
     lng: -64.78956,
     atelier: true,
   },
   {
+    cle: 'pdv.musee',
     nom: 'Musée régional de la Côte-Nord',
     ville: 'Sept-Îles',
-    description: 'La boutique du musée, au cœur de Sept-Îles.',
     lat: 50.2116,
     lng: -66.3786,
   },
   {
+    cle: 'pdv.mariniere',
     nom: 'La Marinière du Nord',
     ville: 'Rivière-au-Tonnerre',
-    description: 'Boutique du village, à deux pas de l’église.',
     lat: 50.2833,
     lng: -64.7728,
   },
   {
+    cle: 'pdv.deriveuses',
     nom: 'Les Dériveuses',
     ville: 'Havre-Saint-Pierre',
-    description: 'Café-boutique face à l’archipel de Mingan.',
     lat: 50.2417,
     lng: -63.5996,
   },
   {
+    cle: 'pdv.artisans',
     nom: 'Place des artisans',
     ville: 'Havre-Saint-Pierre',
-    description: 'Le rendez-vous des artisans de la Minganie.',
     lat: 50.2437,
     lng: -63.6045,
   },
   {
+    cle: 'pdv.ilot',
     nom: 'L’Îlot Souvenirs — Boutique du Terroir Chez Julie',
     ville: 'Havre-Saint-Pierre',
-    description: 'Produits du terroir et créations locales.',
     lat: 50.2405,
     lng: -63.5952,
   },
   {
+    cle: 'pdv.ceramiques',
     nom: 'Céramiques Natashkuan',
     ville: 'Natashquan',
-    description: 'Atelier-boutique au pays de Gilles Vigneault.',
     lat: 50.1866,
     lng: -61.8102,
   },
@@ -213,25 +289,31 @@ const POINTS_DE_VENTE = [
   const conteneur = document.getElementById('boutiques');
   if (!conteneur) return;
 
-  POINTS_DE_VENTE.forEach((p) => {
-    const carte = document.createElement('article');
-    carte.className = 'boutique' + (p.atelier ? ' boutique--atelier' : '');
-    const requete = encodeURIComponent(
-      p.adresse ? p.adresse : p.nom.replace(/—.*$/, '').trim() + ', ' + p.ville + ', QC'
-    );
-    carte.innerHTML =
-      '<div>' +
-      '<p class="boutique-ville">' + p.ville + '</p>' +
-      '<h3>' + p.nom + '</h3>' +
-      '<p>' + p.description + '</p>' +
-      (p.adresse ? '<p class="boutique-adresse">' + p.adresse + '</p>' : '') +
-      '</div>' +
-      '<a class="boutique-lien" href="https://www.google.com/maps/search/?api=1&query=' +
-      requete +
-      '" target="_blank" rel="noopener noreferrer">Voir sur la carte' +
-      '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17 17 7M9 7h8v8"/></svg></a>';
-    conteneur.appendChild(carte);
-  });
+  function afficherBoutiques() {
+    conteneur.innerHTML = '';
+    POINTS_DE_VENTE.forEach((p) => {
+      const carte = document.createElement('article');
+      carte.className = 'boutique' + (p.atelier ? ' boutique--atelier' : '');
+      const requete = encodeURIComponent(
+        p.adresse ? p.adresse : p.nom.replace(/—.*$/, '').trim() + ', ' + p.ville + ', QC'
+      );
+      carte.innerHTML =
+        '<div>' +
+        '<p class="boutique-ville">' + p.ville + '</p>' +
+        '<h3>' + p.nom + '</h3>' +
+        '<p>' + t(p.cle + '.desc') + '</p>' +
+        (p.adresse ? '<p class="boutique-adresse">' + p.adresse + '</p>' : '') +
+        '</div>' +
+        '<a class="boutique-lien" href="https://www.google.com/maps/search/?api=1&query=' +
+        requete +
+        '" target="_blank" rel="noopener noreferrer">' + t('pdv.voir-carte') +
+        '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17 17 7M9 7h8v8"/></svg></a>';
+      conteneur.appendChild(carte);
+    });
+  }
+
+  afficherBoutiques();
+  document.addEventListener('languechange', afficherBoutiques);
 })();
 
 /* Carte Leaflet */

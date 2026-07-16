@@ -13,8 +13,11 @@ Nouveau Site/
 ├── index.html            Page unique (héros, galerie, atelier, points de vente)
 ├── base.css              Socle CSS commun
 ├── style.css             Design « Côte-Nord » (clair + sombre)
-├── app.js                Interactions : galerie, visionneuse, carte, thème
+├── app.js                Interactions : galerie, visionneuse, carte, thème, langue
 ├── galerie-data.js       Liste des photos de la galerie (généré)
+├── lang/
+│   ├── fr.js             Tous les textes en français
+│   └── en.js             Tous les textes en anglais
 ├── assets/               Logo, favicon, photos optimisées (héros, atelier)
 ├── Galerie/              Photos des bijoux, par catégorie
 │   ├── Bagues/
@@ -40,10 +43,23 @@ Nouveau Site/
 Conseil : exporter les photos en « Grande » (~1280 px) depuis Photos sur Mac pour garder
 le site rapide.
 
+## Modifier les textes (français / anglais)
+
+Tous les textes du site vivent dans deux fichiers jumeaux :
+
+- `lang/fr.js` — version française (langue par défaut)
+- `lang/en.js` — version anglaise
+
+Pour corriger un texte : ouvrir le fichier, modifier la valeur entre guillemets à droite
+des deux-points, enregistrer, recharger la page. Les clés (à gauche) doivent rester
+identiques dans les deux fichiers. Le bouton EN/FR dans l'entête permet aux visiteurs de
+changer de langue ; leur choix est mémorisé par le navigateur.
+
 ## Modifier les points de vente
 
-La liste des boutiques (noms, villes, descriptions, coordonnées GPS) se trouve au début
-de la section « Points de vente » du fichier `app.js` (constante `POINTS_DE_VENTE`).
+La liste des boutiques (noms, villes, adresses, coordonnées GPS) se trouve dans le
+fichier `app.js` (constante `POINTS_DE_VENTE`). Les descriptions des boutiques sont dans
+`lang/fr.js` et `lang/en.js` (clés `pdv.xxx.desc`).
 
 ## Tester en local
 

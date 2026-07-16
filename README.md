@@ -61,18 +61,4 @@ La liste des boutiques (noms, villes, adresses, coordonnées GPS) se trouve dans
 fichier `app.js` (constante `POINTS_DE_VENTE`). Les descriptions des boutiques sont dans
 `lang/fr.js` et `lang/en.js` (clés `pdv.xxx.desc`).
 
-## Tester en local
 
-```bash
-python3 -m http.server 8000
-# puis ouvrir http://localhost:8000
-```
-
-## Mise en ligne sur GitHub Pages (après approbation de Karyn)
-
-1. Créer un dépôt GitHub (ex. `bellesdemer`).
-2. Pousser le contenu de ce dossier à la racine du dépôt.
-3. Dans les réglages du dépôt : Pages → Source → branche `main`, dossier `/ (root)`.
-4. Configurer le domaine personnalisé `bellesdemer.com` (fichier `CNAME` + DNS chez le
-   registraire : enregistrement `A`/`ALIAS` vers GitHub Pages).
-5. Résilier l'abonnement Shopify une fois le domaine migré.

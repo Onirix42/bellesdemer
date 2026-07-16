@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Belles de Mer — Bijoux nord-côtiers par Karyn Vignola</title>
+  <meta
+    name="description"
+    content="Bijoux uniques inspirés de la mer, créés à la main par Karyn Vignola à Rivière-au-Tonnerre, en Minganie. Découvrez la galerie et les points de vente sur la Côte-Nord."
+  />
+  <meta property="og:title" content="Belles de Mer — Bijoux nord-côtiers par Karyn Vignola" />
+  <meta
+    property="og:description"
+    content="Coquillages, oursins et écorces cueillis à marée basse, transformés en bijoux uniques. En vente dans les boutiques de la Minganie et de la Côte-Nord."
+  />
+  <meta property="og:image" content="assets/hero-plage.webp" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&display=swap"
+    rel="stylesheet"
+  />
+  <link
+    href="https://api.fontshare.com/v2/css?f[]=switzer@300,400,500,600&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <link rel="stylesheet" href="base.css" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preload" as="image" href="assets/hero-plage.webp" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Belles de Mer",
+    "description": "Bijoux nord-côtiers uniques inspirés de la mer, créés à la main par Karyn Vignola.",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Rivière-au-Tonnerre",
+      "addressRegion": "QC",
+      "addressCountry": "CA"
+    },
+    "sameAs": ["https://www.facebook.com/BellesdeMer/"]
+  }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#contenu">Aller au contenu</a>
+
+  <header class="header" id="entete">
+    <div class="container container--wide header-inner">
+      <a class="brand" href="#" aria-label="Belles de Mer — retour en haut">
+        <svg
+          class="brand-mark"
+          width="34"
+          height="34"
+          viewBox="0 0 48 48"
+          fill="none"
+          aria-hidden="true"
+        >
+          <circle cx="24" cy="24" r="21" stroke="currentColor" stroke-width="2.4" />
+          <g stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+            <path d="M24 24 C22 16.5 22.5 10 24 6.5 C25.5 10 26 16.5 24 24 Z" />
+            <path d="M24 24 C22 16.5 22.5 10 24 6.5 C25.5 10 26 16.5 24 24 Z" transform="rotate(72 24 24)" />
+            <path d="M24 24 C22 16.5 22.5 10 24 6.5 C25.5 10 26 16.5 24 24 Z" transform="rotate(144 24 24)" />
+            <path d="M24 24 C22 16.5 22.5 10 24 6.5 C25.5 10 26 16.5 24 24 Z" transform="rotate(216 24 24)" />
+            <path d="M24 24 C22 16.5 22.5 10 24 6.5 C25.5 10 26 16.5 24 24 Z" transform="rotate(288 24 24)" />
+          </g>
+        </svg>
+        <span class="brand-name">Belles de Mer</span>
+      </a>
+
+      <nav class="nav" aria-label="Navigation principale">
+        <a href="#galerie">Galerie</a>
+        <a href="#atelier">L’atelier</a>
+        <a href="#points-de-vente">Points de vente</a>
+      </nav>
+
+      <button class="theme-toggle" data-theme-toggle aria-label="Passer en mode sombre">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <main id="contenu">
+    <!-- ===================== Héros ===================== -->
+    <section class="hero">
+      <img
+        class="hero-img"
+        src="assets/hero-plage.webp"
+        alt="La plage de Rivière-au-Tonnerre à marée basse, sous un grand ciel bleu"
+        fetchpriority="high"
+      />
+      <div class="container container--wide hero-content">
+        <p class="hero-locale">Rivière-au-Tonnerre · Minganie · Côte-Nord</p>
+        <h1 class="hero-title">Belles de Mer</h1>
+        <p class="hero-tagline">
+          Bijoux uniques façonnés à la main par Karyn Vignola, à partir de coquillages,
+          d’oursins et d’écorces cueillis sur les rives du golfe du Saint-Laurent.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn--primary" href="#galerie">Découvrir la galerie</a>
+          <a class="btn btn--ghost" href="#points-de-vente">Où les trouver</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== Manifeste ===================== -->
+    <section class="manifesto reveal">
+      <div class="container">
+        <blockquote>
+          « Chaque bijou raconte une marée : ce que la mer dépose sur la grève,
+          je le transforme en trésor à porter. »
+          <cite>Karyn Vignola, artisane bijoutière</cite>
+        </blockquote>
+      </div>
+    </section>
+
+    <!-- ===================== Galerie ===================== -->
+    <section class="section" id="galerie">
+      <div class="container container--wide">
+        <p class="section-eyebrow reveal">Les créations</p>
+        <h2 class="section-title reveal">La galerie</h2>
+        <p class="section-intro reveal">
+          Boucles d’oreilles, pendentifs, bagues et bracelets en résine, tous des exemplaires
+          uniques : deux coquillages ne se ressemblent jamais.
+        </p>
+
+        <div class="galerie-tabs reveal" role="tablist" aria-label="Catégories de bijoux"></div>
+        <div class="galerie-grid" id="galerie-grille"></div>
+        <p class="galerie-note">
+          La galerie évolue au rythme des marées et des saisons — de nouvelles créations s’y ajoutent régulièrement.
+        </p>
+      </div>
+    </section>
+
+    <!-- ===================== Bandeau plage ===================== -->
+    <figure class="plage-bandeau">
+      <img
+        src="assets/hero-plage.webp"
+        alt="Reflets du ciel sur le sable mouillé de la plage de Rivière-au-Tonnerre"
+        loading="lazy"
+        decoding="async"
+      />
+      <figcaption>La grève, source de toutes les matières</figcaption>
+    </figure>
+
+    <!-- ===================== Atelier ===================== -->
+    <section class="section atelier" id="atelier">
+      <div class="container container--wide atelier-grid">
+        <div class="atelier-photo reveal">
+          <img
+            src="assets/atelier-karyn.webp"
+            alt="Karyn Vignola à sa table de travail, dans son atelier vitré donnant sur la mer"
+            loading="lazy"
+            decoding="async"
+            width="1280"
+            height="853"
+          />
+        </div>
+        <div class="atelier-texte reveal">
+          <p class="section-eyebrow">L’artiste</p>
+          <h2 class="section-title">L’atelier face à la mer</h2>
+          <p>
+            C’est dans son atelier de <strong>Rivière-au-Tonnerre</strong>, fenêtres ouvertes sur
+            le golfe, que Karyn donne une seconde vie aux trésors ramassés à marée basse :
+            coquillages de pétoncles et de moules, oursins, patelles, algues, lichens et
+            écorces de bouleau.
+          </p>
+          <p>
+            Chaque trouvaille est nettoyée, triée, puis délicatement coulée dans la résine ou
+            montée sur métal. Aucun moule, aucune série : <strong>chaque pièce est unique</strong>,
+            comme le morceau de littoral qu’elle emprisonne.
+          </p>
+          <p>
+            L’atelier se visite — c’est aussi un point de vente. Les visiteurs de passage en
+            Minganie peuvent y rencontrer l’artiste et repartir avec un morceau de Côte-Nord.
+          </p>
+          <p class="atelier-signature">— Karyn</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== Points de vente ===================== -->
+    <section class="section" id="points-de-vente">
+      <div class="container container--wide">
+        <p class="section-eyebrow reveal">Où les trouver</p>
+        <h2 class="section-title reveal">Les points de vente</h2>
+        <p class="section-intro reveal">
+          Les créations Belles de Mer sont offertes en boutique, de Sept-Îles à Natashquan,
+          le long de la route 138 — et directement à l’atelier de Karyn.
+        </p>
+
+        <div class="carte-conteneur reveal">
+          <div id="carte" role="img" aria-label="Carte de la Côte-Nord montrant les points de vente de Belles de Mer"></div>
+        </div>
+
+        <div class="boutiques-grille" id="boutiques"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================== Pied de page ===================== -->
+  <footer class="footer">
+    <div class="container container--wide">
+      <div class="footer-inner">
+        <div>
+          <div class="footer-marque">
+            <svg width="28" height="28" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+              <circle cx="24" cy="24" r="21" stroke="currentColor" stroke-width="2.4" />
+              <g stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+                <path d="M24 24 C22 16.5 22.5 10 24 6.5 C25.5 10 26 16.5 24 24 Z" />
+                <path d="M24 24 C22 16.5 22.5 10 24 6.5 C25.5 10 26 16.5 24 24 Z" transform="rotate(72 24 24)" />
+                <path d="M24 24 C22 16.5 22.5 10 24 6.5 C25.5 10 26 16.5 24 24 Z" transform="rotate(144 24 24)" />
+                <path d="M24 24 C22 16.5 22.5 10 24 6.5 C25.5 10 26 16.5 24 24 Z" transform="rotate(216 24 24)" />
+                <path d="M24 24 C22 16.5 22.5 10 24 6.5 C25.5 10 26 16.5 24 24 Z" transform="rotate(288 24 24)" />
+              </g>
+            </svg>
+            <span class="brand-name">Belles de Mer</span>
+          </div>
+          <p class="footer-baseline">
+            Bijoux nord-côtiers faits main par Karyn Vignola — Rivière-au-Tonnerre, Minganie, Québec.
+          </p>
+        </div>
+        <nav class="footer-liens" aria-label="Liens">
+          <a href="https://www.facebook.com/BellesdeMer/" target="_blank" rel="noopener noreferrer">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M13.5 21v-7h2.4l.4-3h-2.8V9.1c0-.9.3-1.5 1.6-1.5h1.3V4.9c-.3 0-1.1-.1-2-.1-2 0-3.4 1.2-3.4 3.5V11H8.5v3H11v7h2.5z" />
+            </svg>
+            Suivre Belles de Mer sur Facebook
+          </a>
+          <a href="#galerie">Galerie</a>
+          <a href="#atelier">L’atelier</a>
+          <a href="#points-de-vente">Points de vente</a>
+        </nav>
+      </div>
+      <p class="footer-mention">© 2026 Belles de Mer · Karyn Vignola. Toutes les créations sont des pièces uniques.</p>
+    </div>
+  </footer>
+
+  <!-- Visionneuse -->
+  <div class="lightbox" id="visionneuse" role="dialog" aria-modal="true" aria-label="Photo agrandie">
+    <button class="lightbox-fermer" id="visionneuse-fermer" aria-label="Fermer la photo">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <path d="M18 6 6 18M6 6l12 12" />
+      </svg>
+    </button>
+    <img id="visionneuse-img" src="" alt="" />
+    <p class="lightbox-legende" id="visionneuse-legende"></p>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
+  <script src="galerie-data.js" defer></script>
+  <script src="app.js" defer></script>
+</body>
+</html>
